@@ -1,0 +1,64 @@
+//: Playground - noun: Assignment: Un velocímetro de un automóvil digital
+
+import UIKit
+
+// Enumeración Velocidades: Contiene las distintas velocidades posibles
+enum Velocidades : Int{
+    
+    case Apagado = 0, VelocidadBaja = 20, VelocidadMedia = 50, VelocidadAlta = 120
+    
+    init( velocidadInicial : Velocidades ){
+        self = velocidadInicial
+    }
+}
+
+// Classe Auto. Atributo velocidad, funciones init, leerVelocidad y cambioDeVelocidad
+class Auto {
+    var velocidad : Velocidades
+    
+    // Inicializacion del objeto con velocidad Apagado
+    init( ){
+        self.velocidad = Velocidades(velocidadInicial: Velocidades.Apagado)
+    }
+    
+    // funcion para leer los datos de la velocidad actual
+    func leerVelocidad() -> ( actual : Int, velocidadEnCadena : String ){
+        var velocidadStr : String
+        switch velocidad {
+        case Velocidades.Apagado:
+            velocidadStr = "Apagado"
+        case Velocidades.VelocidadBaja:
+            velocidadStr = "Velocidad Baja"
+        case Velocidades.VelocidadMedia:
+            velocidadStr = "Velocidad Media"
+        case Velocidades.VelocidadAlta:
+            velocidadStr = "Velocidad Alta"
+        }
+        return (velocidad.rawValue, velocidadStr)
+    }
+
+    // Funcion para incrementar la velocidad
+    func cambioDeVelocidad() -> ( actual : Int, velocidadEnCadena : String ){
+        switch velocidad {
+        case Velocidades.Apagado:
+            velocidad = Velocidades.VelocidadBaja
+        case Velocidades.VelocidadBaja:
+            velocidad = Velocidades.VelocidadMedia
+        case Velocidades.VelocidadMedia:
+            velocidad = Velocidades.VelocidadAlta
+        case Velocidades.VelocidadAlta:
+            velocidad = Velocidades.VelocidadMedia
+        }
+        return self.leerVelocidad()
+    }
+}
+
+// Creamos una instancia de la clase Auto, inicializada a "Apagado"
+var auto = Auto()
+
+// Iteramos 20 veces escribiendo velocidad actual y cambiando velocidad
+for var i in 1...20 {
+    var resultadoTupla = auto.leerVelocidad()
+    print( "\(i). \(resultadoTupla.actual), \(resultadoTupla.velocidadEnCadena)" )
+    resultadoTupla = auto.cambioDeVelocidad()
+}
